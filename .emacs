@@ -1,4 +1,4 @@
-;;; Basic UI settings
+;; Basic UI settings
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
@@ -44,6 +44,14 @@
 ;;; Theme
 (load-theme 'gruber-darker t)
 
+;;; Helm
+(global-set-key (kbd "C-c h t") 'helm-cmd-t)
+(global-set-key (kbd "C-c h g g") 'helm-git-grep)
+(global-set-key (kbd "C-c h g l") 'helm-ls-git-ls)
+(global-set-key (kbd "C-c h f") 'helm-find)
+(global-set-key (kbd "C-c h a") 'helm-org-agenda-files-headings)
+(global-set-key (kbd "C-c h r") 'helm-recentf)
+
 ;;; Make sure PATH is correctly set up
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns x))
@@ -56,6 +64,8 @@
   (interactive)
   (let ((current-prefix-arg '(4)))
     (call-interactively #'magit-status)))
+
+(require 'project)
 
 (use-package magit
   :config
@@ -79,15 +89,13 @@
   :init
   (setq lsp-keymap-prefix "C-c l")
   :config
-  (setq lsp-enable-symbol-highlighting t)
   (setq lsp-enable-indentation t)
   (setq lsp-enable-on-type-formatting t)
   (setq lsp-lens-enable t)
   (setq lsp-modeline-diagnostics-enable t)
   (setq lsp-completion-provider :capf)
   ;; Remove the top bar
-  (setq lsp-modeline-diagnostics-enable nil)
-  (setq lsp-headerline-breadcrumb-enable nil)
+
   ;; Performance optimizations
   (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024))
@@ -100,6 +108,14 @@
   (setq lsp-ui-doc-show-with-cursor t)
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-sideline-show-diagnostics t))
+
+(defun my-c-cpp-setup ()
+  (setq c-basic-offset 4)
+  (setq tab-width 4)
+  (setq indent-tabs-mode nil))
+
+(add-hook 'c-mode-hook 'my-c-cpp-setup)
+(add-hook 'c++-mode-hook 'my-c-cpp-setup)
 
 ;;; Go mode configuration
 (use-package go-mode
@@ -186,6 +202,10 @@
   :bind-keymap
   ("C-c p" . projectile-command-map))
 
+(use-package dir-treeview)
+
+(global-set-key (kbd "C-x e") 'dir-treeview)
+
 ;;; Enable line numbers globally
 (when (version<= "26.0.50" emacs-version)
   (global-display-line-numbers-mode))
@@ -227,6 +247,13 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (when (file-exists-p custom-file)
   (load custom-file))
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->")         'mc/mark-next-like-this)
+(global-set-key (kbd "C-<")         'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<")     'mc/mark-all-like-this)
+(global-set-key (kbd "C-\"")        'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-:")         'mc/skip-to-previous-like-this)
 
 ;;; Final message
 (message "Configuration loaded successfully!")
