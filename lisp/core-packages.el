@@ -26,4 +26,6 @@
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "))
 
+(setq byte-compile-warnings '(not suspicious))
+
 (provide 'core-packages)

@@ -4,8 +4,8 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 ;; Load core modules
-(require 'core-ui)
 (require 'core-packages)
+(require 'core-ui)
 (require 'core-git)
 (require 'core-lsp)
 (require 'lang-go)

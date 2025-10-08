@@ -29,4 +29,14 @@
    ((eq system-type 'darwin) "JetBrainsMono Nerd Font-13")))
 
 (add-to-list 'default-frame-alist `(font . ,(get-default-font)))
+
+(use-package gruber-darker-theme
+  :config
+  (load-theme 'gruber-darker t))
+
+;; (use-package zenburn-theme
+;;  :config
+;;  (load-theme 'zenburn t))
+
+(use-package solarized-theme)
 (provide 'core-ui)
